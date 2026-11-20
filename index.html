@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HealthLens — Sign In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+  <div class="page">
+
+    <!-- LEFT: Hero / branding panel -->
+    <section class="hero">
+      <div class="hero-glow"></div>
+      <div class="hero-content">
+        <div class="brand">
+          <span class="brand-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+            </svg>
+          </span>
+          <span class="brand-name">HealthLens</span>
+        </div>
+
+        <h1 class="hero-title">
+          Your AI-Powered<br />
+          <span class="gradient-text">Health Assistant</span>
+        </h1>
+
+        <p class="hero-text">
+          Track, analyze, and improve your health over time with intelligent
+          medical report analysis powered by Google Gemini.
+        </p>
+
+        <div class="stats">
+          <div class="stat"><strong>10K+</strong><span>Reports Analyzed</span></div>
+          <div class="stat"><strong>98%</strong><span>Accuracy</span></div>
+          <div class="stat"><strong>24/7</strong><span>Available</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: Login form -->
+    <section class="form-side">
+      <div class="card">
+        <h2>Welcome Back</h2>
+        <p class="subtitle">Sign in to access your health dashboard</p>
+
+        <form id="loginForm" novalidate>
+          <label for="email">Email Address</label>
+          <div class="input-wrap">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>
+            </svg>
+            <input type="email" id="email" placeholder="you@example.com" autocomplete="email" />
+          </div>
+          <p class="error" id="emailError"></p>
+
+          <div class="label-row">
+            <label for="password">Password</label>
+            <a href="#" id="forgotLink" class="link-small">Forgot password?</a>
+          </div>
+          <div class="input-wrap">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+            </svg>
+            <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password" />
+            <button type="button" id="togglePw" class="eye" aria-label="Show password">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+          <p class="error" id="passwordError"></p>
+
+          <button type="submit" class="btn-primary" id="signInBtn">
+            <span id="btnText">Sign In</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M13 6l6 6-6 6"/>
+            </svg>
+          </button>
+        </form>
+
+        <p class="signup">Don't have an account? <a href="#" id="signupLink">Sign Up</a></p>
+      </div>
+    </section>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="login.js"></script>
+</body>
+</html>
