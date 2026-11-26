@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HealthLens — Sign In</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="login.css" />
-</head>
-<body>
+<div class="login-page">
   <div class="page">
 
     <!-- LEFT: Hero / branding panel -->
@@ -49,47 +38,48 @@
         <h2>Welcome Back</h2>
         <p class="subtitle">Sign in to access your health dashboard</p>
 
-        <form id="loginForm" novalidate>
+        <form name="loginForm" ng-submit="submit(loginForm)" novalidate>
           <label for="email">Email Address</label>
-          <div class="input-wrap">
+          <div class="input-wrap" ng-class="{invalid: loginForm.$submitted && loginForm.email.$invalid}">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>
             </svg>
-            <input type="email" id="email" placeholder="you@example.com" autocomplete="email" />
+            <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email"
+                   ng-model="form.email" ng-pattern="emailPattern" required />
           </div>
-          <p class="error" id="emailError"></p>
+          <p class="error" ng-show="loginForm.$submitted && loginForm.email.$invalid">Please enter a valid email address.</p>
 
           <div class="label-row">
             <label for="password">Password</label>
-            <a href="#" id="forgotLink" class="link-small">Forgot password?</a>
+            <a href="" class="link-small" ng-click="forgot()">Forgot password?</a>
           </div>
-          <div class="input-wrap">
+          <div class="input-wrap" ng-class="{invalid: loginForm.$submitted && loginForm.password.$invalid}">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>
             </svg>
-            <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password" />
-            <button type="button" id="togglePw" class="eye" aria-label="Show password">
+            <input ng-attr-type="{{showPw ? 'text' : 'password'}}" id="password" name="password"
+                   placeholder="Enter your password" autocomplete="current-password"
+                   ng-model="form.password" ng-minlength="6" required />
+            <button type="button" class="eye" aria-label="Show password" ng-click="showPw = !showPw">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
               </svg>
             </button>
           </div>
-          <p class="error" id="passwordError"></p>
+          <p class="error" ng-show="loginForm.$submitted && loginForm.password.$invalid">Password must be at least 6 characters.</p>
 
-          <button type="submit" class="btn-primary" id="signInBtn">
-            <span id="btnText">Sign In</span>
+          <button type="submit" class="btn-primary" ng-disabled="loading">
+            <span>{{ loading ? 'Signing in...' : 'Sign In' }}</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14M13 6l6 6-6 6"/>
             </svg>
           </button>
         </form>
 
-        <p class="signup">Don't have an account? <a href="#" id="signupLink">Sign Up</a></p>
+        <p class="signup">Don't have an account? <a href="" ng-click="signup()">Sign Up</a></p>
       </div>
     </section>
   </div>
 
-  <div id="toast" class="toast"></div>
-  <script src="login.js"></script>
-</body>
-</html>
+  <div class="toast" ng-class="{show: toast.show}">{{ toast.text }}</div>
+</div>

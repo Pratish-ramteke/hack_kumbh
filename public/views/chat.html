@@ -1,0 +1,349 @@
+<div class="bg-medBg text-[#1E232A] font-sans antialiased min-h-screen flex flex-col selection:bg-medTeal/40">
+
+  <!-- Toast -->
+  <div ng-show="toast.show" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2.5 bg-medDark text-white text-xs sm:text-sm px-4 py-2.5 rounded-full shadow-lg border border-white/10 transition-all">
+    <span class="w-2 h-2 rounded-full bg-medMint"></span>
+    <span>{{ toast.text }}</span>
+  </div>
+
+  <!-- Top Navigation Bar -->
+  <header class="bg-medDark text-white h-16 px-4 sm:px-7 flex items-center justify-between sticky top-0 z-40 shadow-sm">
+    <div class="flex items-center gap-6 lg:gap-12">
+      <a href="" ng-click="resetChat()" class="flex items-center gap-2.5 group">
+        <span class="w-9 h-9 rounded-xl grid place-items-center bg-gradient-to-br from-medTeal to-medCyan shadow-glowCyan transition-transform duration-300 group-hover:rotate-6">
+          <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+          </svg>
+        </span>
+        <span class="font-display font-bold text-xl tracking-tight text-white">HealthLens</span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-7 text-sm">
+        <button ng-click="switchTab('dashboard')"
+                class="flex items-center gap-2 transition-colors py-5 border-b-2"
+                ng-class="tab==='dashboard' ? 'text-white font-medium border-medTeal' : 'text-gray-400 hover:text-white border-transparent'">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="7" height="9" rx="1.5"></rect>
+            <rect x="14" y="3" width="7" height="5" rx="1.5"></rect>
+            <rect x="14" y="12" width="7" height="9" rx="1.5"></rect>
+            <rect x="3" y="16" width="7" height="5" rx="1.5"></rect>
+          </svg>
+          <span>Dashboard</span>
+        </button>
+
+        <button ng-click="switchTab('specialist')"
+                class="flex items-center gap-2 transition-colors py-5 border-b-2"
+                ng-class="tab==='specialist' ? 'text-white font-medium border-medTeal' : 'text-gray-400 hover:text-white border-transparent'">
+          <svg class="w-4 h-4 text-medTeal" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z" />
+          </svg>
+          <span>AI Specialist</span>
+        </button>
+
+        <button ng-click="switchTab('calendar')"
+                class="flex items-center gap-2 transition-colors py-5 border-b-2"
+                ng-class="tab==='calendar' ? 'text-white font-medium border-medTeal' : 'text-gray-400 hover:text-white border-transparent'">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="18" rx="2.5"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <span>Calendar</span>
+        </button>
+      </nav>
+    </div>
+
+    <div class="flex items-center gap-3 sm:gap-4">
+      <button ng-click="toggleAutoSpeak()" title="Toggle automatic voice reply" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/15 text-xs font-medium text-gray-200 transition-colors">
+        <span class="w-2 h-2 rounded-full" ng-class="autoSpeak ? 'bg-medMint' : 'bg-gray-400'"></span>
+        <svg ng-show="autoSpeak" class="w-3.5 h-3.5 text-medTeal" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+        </svg>
+        <svg ng-show="!autoSpeak" class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+        </svg>
+        <span class="hidden sm:inline">Voice Reply: {{ autoSpeak ? 'ON' : 'OFF' }}</span>
+      </button>
+
+      <div class="flex items-center gap-2.5 pl-2 border-l border-white/10">
+        <div class="text-right hidden sm:block">
+          <p class="text-xs font-semibold text-white leading-tight">{{ userName }}</p>
+          <p class="text-[10px] text-medTeal">Logged in • Verified</p>
+        </div>
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80"
+               img-fallback="https://placehold.co/80x80/8CE2E0/25292E?text=GM"
+               alt="{{ userName }}" class="w-9 h-9 rounded-full object-cover ring-2 ring-medTeal/60" />
+          <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-medMint border-2 border-medDark rounded-full"></span>
+        </div>
+        <button ng-click="logout()" title="Sign out" class="text-[11px] px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/15 text-gray-200 transition-colors">Logout</button>
+      </div>
+
+      <button ng-click="sidebarOpen = !sidebarOpen" class="lg:hidden p-2 rounded-lg bg-white/10 hover:bg-white/15 text-gray-200" aria-label="Toggle Menu">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main 3-Column Container -->
+  <main class="flex-1 max-w-[1480px] w-full mx-auto p-3 sm:p-5 lg:p-6 grid grid-cols-1 lg:grid-cols-[275px_1fr_270px] gap-4 lg:gap-5 items-stretch">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="hidden lg:flex flex-col gap-4" ng-class="{'!flex': sidebarOpen}">
+      <div class="bg-medCard rounded-[20px] p-5 shadow-soft">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[10px] font-semibold tracking-wider uppercase text-gray-400">YOUR AI SPECIALIST</span>
+          <span class="bg-medDark text-white text-[10px] font-semibold px-2.5 py-0.5 rounded-full">V 5.0</span>
+        </div>
+        <h2 class="font-display text-[22px] font-bold text-[#1E232A] tracking-tight mb-2.5">Family doctor</h2>
+        <p class="text-[12px] leading-[1.55] text-gray-500 mb-5">
+          This chat is not a substitute for a real doctor. Please consult a qualified healthcare professional for medical assistance. Self-medication can be harmful to your health.
+        </p>
+        <button ng-click="newChat()" class="btn-new-chat w-full py-3 px-4 rounded-xl text-[#16242C] font-semibold text-sm shadow-glowCyan transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+          <span>New Chat</span>
+        </button>
+      </div>
+
+      <div class="bg-medCard rounded-[20px] p-5 shadow-soft flex-1 flex flex-col justify-between overflow-hidden">
+        <div class="space-y-4 overflow-y-auto max-h-[420px] pr-1">
+          <div>
+            <p class="text-[10px] font-semibold tracking-wider uppercase text-gray-400 mb-2">TODAY</p>
+            <ul class="space-y-1.5 text-[12.5px] text-gray-700">
+              <li><button ng-click="loadHistory('sore_throat')" class="w-full text-left py-1.5 px-2 rounded-lg hover:bg-medBg hover:text-[#1E232A] transition-colors truncate">What should I do if I have a sore thro...</button></li>
+              <li><button ng-click="loadHistory('cold_vs_flu')" class="w-full text-left py-1.5 px-2 rounded-lg hover:bg-medBg hover:text-[#1E232A] transition-colors truncate">How can I distinguish between a cold...</button></li>
+              <li><button ng-click="loadHistory('headache')" class="w-full text-left py-1.5 px-2 rounded-lg hover:bg-medBg hover:text-[#1E232A] transition-colors truncate">What can I do to relieve a severe hea...</button></li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-[10px] font-semibold tracking-wider uppercase text-gray-400 mb-2">MAY</p>
+            <ul class="space-y-1.5 text-[12.5px] text-gray-700">
+              <li><button ng-click="loadHistory('preventive')" class="w-full text-left py-1.5 px-2 rounded-lg hover:bg-medBg hover:text-[#1E232A] transition-colors truncate">Are there any preventive measures f...</button></li>
+              <li><button ng-click="loadHistory('symptoms')" class="w-full text-left py-1.5 px-2 rounded-lg hover:bg-medBg hover:text-[#1E232A] transition-colors truncate">What are the common symptoms of...</button></li>
+              <li><button ng-click="loadHistory('allergies')" class="w-full text-left py-1.5 px-2 rounded-lg hover:bg-medBg hover:text-[#1E232A] transition-colors truncate">How can I manage my seasonal aller...</button></li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-[10px] font-semibold tracking-wider uppercase text-gray-400 mb-2">APRIL</p>
+            <ul class="space-y-1.5 text-[12.5px] text-gray-700">
+              <li><button ng-click="loadHistory('treatments')" class="w-full text-left py-1.5 px-2 rounded-lg hover:bg-medBg hover:text-[#1E232A] transition-colors truncate">What are some effective treatments...</button></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CENTER: Chat -->
+    <section class="flex flex-col min-h-[78vh] lg:min-h-[calc(100vh-112px)]">
+      <div class="flex items-center justify-between px-1 pb-3">
+        <div class="flex items-center gap-3">
+          <h1 class="font-display text-xl sm:text-[22px] font-bold text-[#1E232A] tracking-tight">AI Specialist Chat</h1>
+          <span class="text-[11px] font-medium bg-white text-gray-600 px-2.5 py-1 rounded-full shadow-soft border border-gray-100">
+            Patient: <strong class="text-[#1E232A]">{{ patient.name }}</strong>
+          </span>
+        </div>
+
+        <div class="relative">
+          <button ng-click="menuOpen = !menuOpen" class="p-2 rounded-full hover:bg-white/80 text-gray-500 hover:text-[#1E232A] transition-colors" aria-label="Chat options">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <circle cx="12" cy="5" r="1.75"></circle>
+              <circle cx="12" cy="12" r="1.75"></circle>
+              <circle cx="12" cy="19" r="1.75"></circle>
+            </svg>
+          </button>
+          <div ng-show="menuOpen" class="absolute right-0 mt-1.5 w-48 bg-white rounded-2xl shadow-lg border border-gray-100 py-1.5 z-30 text-xs font-medium text-gray-700">
+            <button ng-click="resetChat(); menuOpen = false" class="w-full text-left px-4 py-2.5 hover:bg-medBg flex items-center gap-2"><span>Restore Sample Consultation</span></button>
+            <button ng-click="newChat(); menuOpen = false" class="w-full text-left px-4 py-2.5 hover:bg-medBg flex items-center gap-2"><span>Clear Conversation</span></button>
+            <button ng-click="stopSpeaking(); menuOpen = false" class="w-full text-left px-4 py-2.5 hover:bg-medBg text-red-500 flex items-center gap-2"><span>Stop Voice Playback</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-medCard rounded-[22px] shadow-soft flex-1 flex flex-col justify-between p-4 sm:p-6 overflow-hidden">
+
+        <!-- MESSAGES -->
+        <div id="chatMessagesContainer" class="flex-1 overflow-y-auto space-y-5 pr-1 sm:pr-2 max-h-[58vh] lg:max-h-[62vh]">
+          <div class="flex items-center gap-3">
+            <span class="text-[10px] font-semibold tracking-wider uppercase text-gray-400">TODAY</span>
+            <div class="h-[1px] flex-1 bg-gray-100"></div>
+          </div>
+
+          <div ng-repeat="msg in messages track by msg.id" class="msg-enter">
+
+            <!-- USER MESSAGE -->
+            <div ng-if="msg.sender === 'user'" class="flex items-start justify-end gap-3">
+              <div class="max-w-[82%] sm:max-w-[72%]">
+
+                <div ng-if="!msg.isPrescriptionCard" class="text-[13.5px] leading-[1.55] text-[#1E232A] text-right py-1">{{ msg.text }}</div>
+
+                <div ng-if="msg.isPrescriptionCard" class="bg-white border border-gray-200/90 rounded-2xl p-3.5 shadow-xs w-56 sm:w-64 text-left ml-auto">
+                  <div class="flex items-center justify-between border-b border-gray-100 pb-2 mb-2">
+                    <div class="flex items-center gap-1.5">
+                      <span class="w-4 h-4 rounded-full bg-emerald-500 text-white text-[9px] font-bold flex items-center justify-center">+</span>
+                      <span class="text-[11px] font-bold text-emerald-700">Pharmacy</span>
+                    </div>
+                    <span class="text-[9px] text-gray-400">RECEIPT</span>
+                  </div>
+                  <p class="text-[10px] font-bold text-center tracking-wide text-gray-700 mb-1.5">PRESCRIPTION RECEIPT</p>
+                  <div class="space-y-1 text-[10px] text-gray-500 font-mono bg-medBg/70 p-2 rounded-lg">
+                    <p class="font-semibold text-gray-800">{{ msg.prescriptionDrug || '30 CAP Drug Name Here' }}</p>
+                    <p>Dosage: 1 cap every 8 hours</p>
+                    <p class="text-emerald-700 font-semibold">{{ msg.prescriptionRef || 'Verified Digital Rx' }}</p>
+                  </div>
+                </div>
+
+                <div ng-if="msg.attachmentName && !msg.isPrescriptionCard" class="mt-2 inline-flex items-center gap-2 bg-medBg border border-gray-200 rounded-xl px-3 py-2 text-xs text-gray-700">
+                  <span class="font-bold text-teal-600">Rx</span>
+                  <span>{{ msg.attachmentName }}</span>
+                </div>
+              </div>
+              <img ng-src="{{ patient.avatar }}" img-fallback="{{ patient.fallback }}" alt="{{ patient.name }}" class="w-9 h-9 rounded-full object-cover shrink-0 shadow-xs" />
+            </div>
+
+            <!-- AI MESSAGE -->
+            <div ng-if="msg.sender === 'ai'" class="flex items-start gap-3">
+              <div class="w-9 h-9 rounded-xl bg-medTeal text-[#16242C] font-display font-bold text-xs flex items-center justify-center shrink-0 shadow-xs select-none">OK</div>
+              <div class="flex items-start gap-2 max-w-[85%] sm:max-w-[78%]">
+                <div class="bg-medBubble rounded-2xl rounded-tl-sm px-4 py-3.5 text-[13.5px] leading-[1.6] text-[#2B313B]" ng-bind-html="msg.text | aiText"></div>
+                <div class="flex flex-col items-center gap-1.5 pt-1 text-gray-400">
+                  <button ng-click="copyMessage(msg)" title="Copy response" class="p-1 hover:text-[#1E232A] rounded transition-colors">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                      <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+                      <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+                    </svg>
+                  </button>
+                  <button ng-click="speakMessage(msg)" title="Listen to answer aloud" class="p-1 hover:text-medCyan rounded transition-colors">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                    </svg>
+                  </button>
+                  <button ng-click="rate(msg, 'up')" title="Helpful" class="p-1 hover:text-emerald-600 rounded transition-colors" ng-class="{'text-emerald-600': msg.rating === 'up'}">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3zM7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3" />
+                    </svg>
+                  </button>
+                  <button ng-click="rate(msg, 'down')" title="Not helpful" class="p-1 hover:text-red-500 rounded transition-colors" ng-class="{'text-red-500': msg.rating === 'down'}">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3zm7-13h2.67A2.31 2.31 0 0122 4v7a2.31 2.31 0 01-2.33 2H17" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- STATUS + QUICK PROMPTS -->
+        <div class="pt-3 flex items-center justify-between min-h-[28px]">
+          <div class="flex items-center gap-2 text-xs text-gray-400">
+            <span>{{ status.text }}</span>
+            <div ng-show="status.waves" class="flex items-center gap-0.5 ml-1">
+              <span class="wave-bar bg-medCyan"></span>
+              <span class="wave-bar bg-medMint"></span>
+              <span class="wave-bar bg-medCyan"></span>
+              <span class="wave-bar bg-medMint"></span>
+            </div>
+          </div>
+
+          <div class="hidden sm:flex items-center gap-1.5">
+            <button ng-click="sendQuickPrompt('Where can I purchase the prescribed medication nearby?')" class="text-[11px] text-gray-500 hover:text-[#1E232A] bg-medBg hover:bg-gray-200/70 px-2.5 py-1 rounded-full transition-colors">Pharmacy options?</button>
+            <button ng-click="sendQuickPrompt('Are there any side effects I should watch out for?')" class="text-[11px] text-gray-500 hover:text-[#1E232A] bg-medBg hover:bg-gray-200/70 px-2.5 py-1 rounded-full transition-colors">Side effects?</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Attachment preview chip -->
+      <div ng-show="pendingAttachment" class="mt-2.5 bg-white rounded-xl px-3.5 py-2 shadow-soft border border-medTeal/50 flex items-center justify-between text-xs">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-medTeal/20 text-teal-700 flex items-center justify-center font-bold">Rx</div>
+          <div>
+            <p class="font-semibold text-[#1E232A]">{{ pendingAttachment }}</p>
+            <p class="text-[11px] text-gray-400">Ready to attach to your message</p>
+          </div>
+        </div>
+        <button ng-click="clearAttachment()" class="text-gray-400 hover:text-red-500 p-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+      </div>
+
+      <!-- Input bar -->
+      <div class="mt-3.5 flex items-center gap-2.5 sm:gap-3">
+        <div class="relative">
+          <input type="file" id="fileUploadInput" accept="image/*" class="hidden" on-file-change="fileChosen($event)" />
+          <button ng-click="pickFile()" title="Attach medical document or prescription" class="w-12 h-12 rounded-full bg-white hover:bg-gray-50 text-[#1E232A] shadow-soft flex items-center justify-center transition-transform active:scale-95 border border-gray-100">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+          </button>
+        </div>
+
+        <div class="flex-1 bg-white rounded-2xl shadow-soft border border-gray-100 focus-within:border-medCyan/60 transition-all flex items-center px-4 py-1.5">
+          <input type="text" ng-model="chat.input" ng-keydown="$event.key === 'Enter' && send()"
+                 placeholder="Write your request or tap mic to speak..."
+                 class="w-full bg-transparent text-sm text-[#1E232A] placeholder-gray-400 focus:outline-none py-2 pr-2" />
+          <button type="button" ng-click="toggleMic()" title="Speak your symptoms or question"
+                  class="relative flex items-center justify-center w-9 h-9 rounded-xl transition-all shrink-0"
+                  ng-class="recording ? 'bg-red-500 text-white mic-recording' : 'bg-medBg hover:bg-medTeal/25 text-gray-600 hover:text-[#1E232A]'">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+            </svg>
+          </button>
+        </div>
+
+        <button ng-click="send()" class="bg-medDark hover:bg-[#1A1D21] text-white font-medium text-sm px-5 sm:px-6 h-12 rounded-2xl shadow-soft flex items-center gap-2 transition-all active:scale-95 shrink-0">
+          <span>Send</span>
+          <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- RIGHT: Family + Promo -->
+    <aside class="flex flex-col gap-4">
+      <div class="bg-medCard rounded-[20px] p-5 shadow-soft flex-1 flex flex-col justify-between">
+        <div>
+          <h2 class="font-display text-lg font-bold text-[#1E232A] mb-3.5">Family</h2>
+          <div class="flex items-center justify-between gap-2 mb-5">
+            <button ng-click="cyclePatient(-1)" class="w-6 h-6 rounded-full hover:bg-medBg flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors" aria-label="Previous family member">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+            </button>
+
+            <div class="flex items-center gap-2.5">
+              <button ng-repeat="m in family" ng-click="selectPatient($index)" title="{{ m.name }}"
+                      class="relative rounded-xl overflow-hidden transition-all duration-200"
+                      ng-class="$index === active ? 'w-12 h-12 ring-2 ring-medCyan scale-105 shadow-sm' : 'w-10 h-10 opacity-60 hover:opacity-95'">
+                <img ng-src="{{ m.avatar }}" img-fallback="{{ m.fallback }}" alt="{{ m.name }}" class="w-full h-full object-cover" />
+              </button>
+            </div>
+
+            <button ng-click="cyclePatient(1)" class="w-6 h-6 rounded-full hover:bg-medBg flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors" aria-label="Next family member">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+            </button>
+          </div>
+
+          <div class="mb-4">
+            <h3 class="font-display text-lg font-bold text-[#1E232A]">{{ patient.name }}</h3>
+            <p class="text-xs text-gray-400 mt-0.5">{{ patient.meta }}</p>
+          </div>
+
+          <p class="text-[12px] leading-[1.6] text-gray-500 mb-5">{{ patient.summary }}</p>
+        </div>
+
+        <div class="border-t border-gray-100 pt-4 space-y-2.5 text-xs">
+          <div class="flex items-center justify-between"><span class="text-gray-500 font-medium">Total visits</span><span class="font-bold text-[#1E232A]">{{ patient.visits }}</span></div>
+          <div class="flex items-center justify-between"><span class="text-gray-500 font-medium">Prescriptions</span><span class="font-bold text-[#1E232A]">{{ patient.prescriptions }}</span></div>
+          <div class="flex items-center justify-between"><span class="text-gray-500 font-medium">Uploaded docs</span><span class="font-bold text-[#1E232A]">{{ patient.docs }}</span></div>
+        </div>
+      </div>
+
+      <div class="promo-card-gradient rounded-[20px] p-5 text-white shadow-glowPromo relative overflow-hidden">
+        <div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/15 pointer-events-none"></div>
+        <div class="absolute -right-2 -bottom-8 w-20 h-20 rounded-full bg-white/10 pointer-events-none"></div>
+        <p class="text-[11px] font-medium text-white/90 mb-1">Get a specialist</p>
+        <h3 class="font-display text-lg font-bold leading-snug mb-4">Second Opinion</h3>
+        <button ng-click="requestSecondOpinion()" class="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-gray-50 text-[#1E232A] font-semibold text-xs shadow-sm transition-all active:scale-[0.98]">Consult Specialist</button>
+      </div>
+    </aside>
+  </main>
+</div>
